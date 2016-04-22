@@ -2,18 +2,8 @@ package tfg.accelbikeapp;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothManager;
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothProfile;
-import android.bluetooth.le.BluetoothLeScanner;
-import android.bluetooth.le.ScanFilter;
-import android.bluetooth.le.ScanSettings;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.le.ScanCallback;
-import android.bluetooth.BluetoothGattCallback;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -23,17 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 import android.content.Intent;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+
+import tfg.accelbikeapp.Bluetooth.DispAdapter;
 
 /**
  * Created by David on 23/02/2016.
@@ -52,7 +40,7 @@ public class ConfigFragment extends Fragment {
     private Handler mHandler;
     boolean enabled;
 
-    private tfg.accelbikeapp.BluetoothManager manager;
+    private tfg.accelbikeapp.Bluetooth.BluetoothManager manager;
     private static final long SCAN_PERIOD = 10000;
 
     private static final int REQUEST_ENABLE_BT = 1;
@@ -80,7 +68,7 @@ public class ConfigFragment extends Fragment {
 
         lista.setAdapter(dispAdapter);
 
-        manager = new tfg.accelbikeapp.BluetoothManager(this.getContext(), dispositivos);
+        manager = new tfg.accelbikeapp.Bluetooth.BluetoothManager(this.getContext(), dispositivos);
 
         // Configurar el boton
         if (!manager.bluetoothDisponible())

@@ -1,4 +1,4 @@
-package tfg.accelbikeapp;
+package tfg.accelbikeapp.Bluetooth;
 
 import java.util.List;
 

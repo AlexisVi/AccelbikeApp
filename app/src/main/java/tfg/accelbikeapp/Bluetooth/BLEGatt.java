@@ -1,4 +1,4 @@
-package tfg.accelbikeapp;
+package tfg.accelbikeapp.Bluetooth;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -103,8 +103,6 @@ public class BLEGatt {
 
             }
 
-            //leer(); //TODO Esto sobra
-
         }
 
         //Aqui se recibe la info que nos manda el dispositivoghjg
@@ -155,6 +153,12 @@ public class BLEGatt {
 
     }
 
+    public boolean isConnected(){
+
+        return mGatt != null;
+
+    }
+
     public void leer(){
 
         BluetoothGattService alertService = mGatt.getService(SERVICE_UUID);
@@ -181,5 +185,4 @@ public class BLEGatt {
         Log.i("WriteAlertLevel", "readCharacteristic: " + ok);
 
     }
-
 }
