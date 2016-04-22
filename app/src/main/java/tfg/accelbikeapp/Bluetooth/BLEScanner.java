@@ -1,4 +1,4 @@
-package tfg.accelbikeapp;
+package tfg.accelbikeapp.Bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -115,6 +115,5 @@ public class BLEScanner {
             scanner.stopScan(mScanCallback);
         scanner = null;
         dispositivos = null;
-
     }
 }

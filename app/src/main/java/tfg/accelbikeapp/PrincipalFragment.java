@@ -1,6 +1,5 @@
 package tfg.accelbikeapp;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -12,22 +11,30 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
-import android.widget.Toast;
-
+import java.util.Date;
 import java.util.List;
+
+import tfg.accelbikeapp.Bluetooth.BLEGatt;
+import tfg.accelbikeapp.Bluetooth.BluetoothThread;
+import tfg.accelbikeapp.Bluetooth.GattObserver;
+import tfg.accelbikeapp.File.FileManager;
+import tfg.accelbikeapp.File.FileThread;
 
 /**
  * Created by David on 22/02/2016.
  */
-public class PrincipalFragment extends Fragment implements GattObserver{
+public class PrincipalFragment extends Fragment implements GattObserver {
 
     Button inicio, parar;
     Chronometer crono;
     TextView acel;
 
+    private FileManager fileManager;
+    private Date fecha;
+
     Thread th;
 
-    long Time = 0;
+    //long Time = 0;
 
     @Nullable
     @Override
@@ -36,6 +43,9 @@ public class PrincipalFragment extends Fragment implements GattObserver{
         //RelativeLayout ll = (RelativeLayout) inflater.inflate(R.layout.principal_layout, container, false);
         View v = inflater.inflate(R.layout.principal_layout, null);
         BLEGatt.getInstancia().registerObserver(this);
+
+        fileManager = new FileManager(getContext());
+
         initUI(v);
         return v;
     }
@@ -55,6 +65,22 @@ public class PrincipalFragment extends Fragment implements GattObserver{
             @Override
             public void onClick(View v) {
 
+                //fecha = new Date();
+
+                //Log.i("Principal",fechaAux);
+                //fileManager.updateSesion(fecha.toString());
+
+                /*final String pepe = fileManager.leer();
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        acel.setText(pepe);
+
+                    }
+                });*/
+
                 // Si no esta conectado al dispositivo no hacemos nada
                 if (!BLEGatt.getInstancia().isConnected()){
 
@@ -68,7 +94,6 @@ public class PrincipalFragment extends Fragment implements GattObserver{
                 parar.setEnabled(true);
                 crono.setBase(SystemClock.elapsedRealtime());
                 startThread();
-
             }
         });
 
@@ -79,42 +104,18 @@ public class PrincipalFragment extends Fragment implements GattObserver{
                 inicio.setEnabled(true);
                 parar.setEnabled(false);
                 crono.stop();
+                //Calcular COSITAS
                 stopThread();
-
             }
         });
     }
 
     public void startThread(){
 
-        th = new Thread(new Runnable() {
-
-            public void run() {
-
-                int segundos = 0; //TODO Esto es temporal, quiero ver si pasan los mismos segundos
-
-                while (!Thread.interrupted()) {
-
-                    Log.i("Thread", "segundos: " + Integer.toString(segundos));
-                    BLEGatt.getInstancia().leer();
-
-                    try {
-
-                        Thread.sleep(1000);
-                        segundos++;
-
-                    }
-                    catch (InterruptedException e) {
-
-                        return;
-
-                    }
-                }
-            }
-        });
+        //th = new BluetoothThread();
+        th = new FileThread(this.getContext());
 
         th.start();
-
     }
 
     public void stopThread(){
@@ -134,7 +135,9 @@ public class PrincipalFragment extends Fragment implements GattObserver{
     }
 
     public void onDataRead(final List<Short> valores){
-
+        //final String datos;
+        //fileManager.updateSesion("sesionActual");
+        //datos = fileManager.leer();
         this.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -143,10 +146,12 @@ public class PrincipalFragment extends Fragment implements GattObserver{
                              Short.toString(valores.get(1)) + ", " +
                              Short.toString(valores.get(2)));
 
+                //acel.setText(datos);
+
             }
         });
 
-        Log.i("PrincipalFragment", "He recibido un dato!");
-
+        //fileManager.guardar(Short.toString(valores.get(0)), Short.toString(valores.get(1)),
+             //   Short.toString(valores.get(2)));
     }
 }

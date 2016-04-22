@@ -1,4 +1,4 @@
-package tfg.accelbikeapp;
+package tfg.accelbikeapp.Bluetooth;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -185,5 +185,4 @@ public class BLEGatt {
         Log.i("WriteAlertLevel", "readCharacteristic: " + ok);
 
     }
-
 }

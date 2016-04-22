@@ -1,13 +1,10 @@
-package tfg.accelbikeapp;
+package tfg.accelbikeapp.Bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.le.ScanCallback;
 import android.content.Context;
-import android.content.Intent;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by rodry on 30/03/16.

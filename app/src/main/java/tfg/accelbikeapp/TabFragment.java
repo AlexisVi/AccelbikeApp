@@ -18,7 +18,7 @@ public class TabFragment extends Fragment {
 
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static int int_items = 4 ;
+    public static int int_items = 2 ;
 
     @Nullable
     @Override
@@ -67,9 +67,9 @@ public class TabFragment extends Fragment {
         {
             switch (position){
                 case 0 : return new PrincipalFragment();
-                case 1 : return new MapaFragment();
-                case 2 : return new EstadisticasFragment();
-                case 3 : return new AccelerometerFragment();
+                case 1 : return new ActividadesFragment();
+                /*case 2 : return new EstadisticasFragment();
+                case 3 : return new AccelerometerFragment();*/
             }
             return null;
         }
@@ -90,16 +90,15 @@ public class TabFragment extends Fragment {
 
             switch (position){
                 case 0 :
-                    return "Principal";
+                    return "Sesión";
                 case 1 :
-                    return "Mapa";
-                case 2 :
+                    return "Actividades";
+                /*case 2 :
                     return "Estadísticas";
                 case 3 :
-                    return "Acelerometro";
+                    return "Acelerometro";*/
             }
             return null;
         }
     }
-
 }
