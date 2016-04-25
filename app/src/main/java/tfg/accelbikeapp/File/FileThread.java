@@ -1,7 +1,6 @@
 package tfg.accelbikeapp.File;
 
 import android.content.Context;
-import android.util.Log;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -10,6 +9,7 @@ import tfg.accelbikeapp.Bluetooth.BluetoothThread;
 /**
  * Created by alexis on 22/04/16.
  */
+
 public class FileThread extends Thread {
 
     private FileManager filemanager;
@@ -20,6 +20,7 @@ public class FileThread extends Thread {
     public FileThread(Context context){
         super();
         bluetooth = new BluetoothThread();
+        //GPS TODO
         filemanager = new FileManager(context);
     }
 
@@ -48,6 +49,5 @@ public class FileThread extends Thread {
                 bluetooth.interrupt();
             }
         }
-
     }
 }

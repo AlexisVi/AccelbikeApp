@@ -44,7 +44,7 @@ public class MapaFragment extends Fragment {
 
         googleMap = mapView.getMap();
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.setMyLocationEnabled(true);
+        //googleMap.setMyLocationEnabled(true);
         return v;
 
     }
