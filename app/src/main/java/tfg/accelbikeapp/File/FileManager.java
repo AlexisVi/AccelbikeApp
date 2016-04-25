@@ -41,7 +41,7 @@ public class FileManager{
     }
 
     public void guardar(String x, String y, String z){
-
+        //Chupa Carlos
         //String filename = "prueba";
         String content = x + ";" + y + ";" + z ;
         Log.i("CHUPA CARLOS", content);
