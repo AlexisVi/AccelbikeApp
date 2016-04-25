@@ -5,17 +5,20 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 /**
  * Created by alexis on 25/04/16.
  */
-public class CoordenadasThread extends Thread{
+public class CoordenadasThread /*extends Thread*/{
 
     private double lat;
     private double lon;
     private Context ctx;
     private LocationManager mlocManager;
     private MyLocationListener mlocListener;
+    private Location location;
+
     private boolean gpsActivo;
 
     public CoordenadasThread(Context ctx){
@@ -23,7 +26,7 @@ public class CoordenadasThread extends Thread{
         super();
         this.ctx = ctx;
 
-        mlocManager = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
+        mlocManager = (LocationManager) this.ctx.getSystemService(Context.LOCATION_SERVICE);
         mlocListener = new MyLocationListener();
         //mlocListener.setMainActivity(this);
         //mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
@@ -31,6 +34,35 @@ public class CoordenadasThread extends Thread{
     }
 
     public void getLocation(){
-        gpsActivo = mlocManager.isProviderEnabled(mlocManager.GPS_PROVIDER);
+        try {
+            gpsActivo = mlocManager.isProviderEnabled(mlocManager.GPS_PROVIDER);
+        }catch (Exception e){}
+
+        if (gpsActivo) {
+            try {
+                mlocManager.requestLocationUpdates(mlocManager.GPS_PROVIDER,
+                        1000 * 60,
+                        10,
+                        mlocListener);
+
+                location = mlocManager.getLastKnownLocation(mlocManager.GPS_PROVIDER);
+                if (location != null){
+                    lat = location.getLatitude();
+                    lon = location.getLongitude();
+                }else{
+                    lat = 0.0;
+                    lon = 0.0;
+                }
+
+            }
+            catch(SecurityException e){
+
+                e.printStackTrace();
+
+            }
+
+            Log.i("lat", Double.toString(lat));
+            Log.i("lon", Double.toString(lon));
+        }
     }
 }

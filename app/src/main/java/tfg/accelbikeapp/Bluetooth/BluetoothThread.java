@@ -33,6 +33,7 @@ public class BluetoothThread extends Thread implements GattObserver  {
 
             } catch (InterruptedException e) {
                 return;
+
             }
         }
     }
