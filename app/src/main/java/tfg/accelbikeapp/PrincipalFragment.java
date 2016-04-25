@@ -13,9 +13,7 @@ import android.widget.Chronometer;
 import android.widget.TextView;
 import java.util.Date;
 import java.util.List;
-
 import tfg.accelbikeapp.Bluetooth.BLEGatt;
-import tfg.accelbikeapp.Bluetooth.BluetoothThread;
 import tfg.accelbikeapp.Bluetooth.GattObserver;
 import tfg.accelbikeapp.File.FileManager;
 import tfg.accelbikeapp.File.FileThread;
@@ -152,6 +150,6 @@ public class PrincipalFragment extends Fragment implements GattObserver {
         });
 
         //fileManager.guardar(Short.toString(valores.get(0)), Short.toString(valores.get(1)),
-             //   Short.toString(valores.get(2)));
+        //   Short.toString(valores.get(2)));
     }
 }
