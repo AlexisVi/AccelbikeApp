@@ -1,7 +1,7 @@
 package tfg.accelbikeapp.File;
 
 import android.content.Context;
-import android.util.Log;
+import android.os.Looper;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,24 +16,25 @@ import tfg.accelbikeapp.GPS.CoordenadasThread;
 public class FileThread extends Thread {
 
     private FileManager filemanager;
-    private BluetoothThread bluetooth;
-    private CoordenadasThread coordenadas;
-    private ArrayList<Short> ejes;
-    private ArrayList<Double> coordenadasAux;
+    private BluetoothThread bluThread;
+    private CoordenadasThread locThread;
+    private ArrayList<Short> VectorEjes;
+    private ArrayList<Double> vectorCoord;
     private Date fecha;
     private Context ctx;
 
     public FileThread(Context context){
         super();
         this.ctx = context;
-        bluetooth = new BluetoothThread();
-        coordenadas = new CoordenadasThread(this.ctx);
+        bluThread = new BluetoothThread();
+        locThread = new CoordenadasThread(this.ctx);
         filemanager = new FileManager(this.ctx);
     }
 
     public void run(){
-        bluetooth.start();
-        coordenadas.start();
+
+        bluThread.start();
+        locThread.start();
 
         fecha = new Date();
 
@@ -43,31 +44,33 @@ public class FileThread extends Thread {
 
         while (!Thread.interrupted()) {
 
-            ejes = bluetooth.getEjes();
-            coordenadasAux = coordenadas.getCoordenadas();
-            if(!ejes.isEmpty() && !coordenadasAux.isEmpty()){
-                /*Log.i("X", Short.toString(ejes.get(0)));
-                Log.i("Y", Short.toString(ejes.get(1)));
-                Log.i("Z", Short.toString(ejes.get(2)));*/
+            VectorEjes = bluThread.getEjes();
+            vectorCoord = locThread.getCoordenadas();
+
+            if (!VectorEjes.isEmpty() && !vectorCoord.isEmpty()){
+                /*Log.i("X", Short.toString(VectorEjes.get(0)));
+                Log.i("Y", Short.toString(VectorEjes.get(1)));
+                Log.i("Z", Short.toString(VectorEjes.get(2)));*/
 
 
-                filemanager.guardar(Short.toString(ejes.get(0)), Short.toString(ejes.get(1)),
-                        Short.toString(ejes.get(2)),
-                        Double.toString(coordenadasAux.get(0)),
-                        Double.toString(coordenadasAux.get(1)));
+                filemanager.guardar(Short.toString(VectorEjes.get(0)), Short.toString(VectorEjes.get(1)),
+                        Short.toString(VectorEjes.get(2)),
+                        Double.toString(vectorCoord.get(0)),
+                        Double.toString(vectorCoord.get(1)));
 
-                //Log.i("Coordenadas", "Hola");
-
-                //Log.i("Coordenadas", "ME LA SUDAN");
             }
 
             try {
 
                 Thread.sleep(1000);
 
-            } catch (InterruptedException e) {
-                bluetooth.interrupt();
-                coordenadas.interrupt();
+            }
+            catch (InterruptedException e) {
+
+                bluThread.interrupt();
+                locThread.interrupt();
+                return;
+
             }
         }
     }

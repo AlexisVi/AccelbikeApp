@@ -41,7 +41,7 @@ public class ConfigFragment extends Fragment {
     boolean enabled;
 
     private tfg.accelbikeapp.Bluetooth.BluetoothManager manager;
-    private static final long SCAN_PERIOD = 10000;
+    private static final long SCAN_PERIOD = 1000;
 
     private static final int REQUEST_ENABLE_BT = 1;
 

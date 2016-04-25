@@ -38,9 +38,9 @@ public class ActividadesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //return inflater.inflate(R.layout.actividades_layout,null);
-        View v = inflater.inflate(R.layout.actividades_layout,null);
-        initUI(v);
-        return v;
+       // View v = inflater.inflate(R.layout.actividades_layout,null);
+        //initUI(v);
+        return null;
     }
 
     public void initUI(View v){

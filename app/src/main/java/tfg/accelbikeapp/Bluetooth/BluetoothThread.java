@@ -13,9 +13,11 @@ public class BluetoothThread extends Thread implements GattObserver  {
     private volatile ArrayList<Short> ejes;
 
     public BluetoothThread(){
+
         super();
-        ejes = new ArrayList<Short>();
+        ejes = new ArrayList<>();
         BLEGatt.getInstancia().registerObserver(this);
+
     }
 
     public ArrayList<Short> getEjes(){
@@ -32,6 +34,7 @@ public class BluetoothThread extends Thread implements GattObserver  {
                 Thread.sleep(1000);
 
             } catch (InterruptedException e) {
+
                 return;
 
             }

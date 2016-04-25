@@ -5,6 +5,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class CoordenadasThread extends Thread{
     private LocationManager mlocManager;
     private MyLocationListener mlocListener;
     private Location location;
-    private ArrayList<Double> coordenadas;
+    private volatile ArrayList<Double> coordenadas;
 
     private boolean gpsActivo;
 
@@ -31,12 +32,25 @@ public class CoordenadasThread extends Thread{
 
         mlocManager = (LocationManager) this.ctx.getSystemService(Context.LOCATION_SERVICE);
         mlocListener = new MyLocationListener();
+        coordenadas = new ArrayList<>(2);
         //mlocListener.setMainActivity(this);
         //mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
 
     }
 
     public void run(){
+
+        try{
+
+            mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, mlocListener, Looper.getMainLooper());
+
+        }
+        catch(SecurityException e){
+
+            e.printStackTrace();
+
+        }
+
         while (!Thread.interrupted()) {
 
             getLocation();
@@ -46,31 +60,38 @@ public class CoordenadasThread extends Thread{
                 Thread.sleep(1000);
 
             } catch (InterruptedException e) {
+
                 return;
 
             }
         }
     }
 
-    public void getLocation(){
+    private void getLocation(){
         try {
-            gpsActivo = mlocManager.isProviderEnabled(mlocManager.GPS_PROVIDER);
-        }catch (Exception e){}
+            gpsActivo = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        }catch (Exception e){
+
+            Log.i("CoordenadasThread", "Excepciooon");
+
+        }
 
         if (gpsActivo) {
             try {
-                mlocManager.requestLocationUpdates(mlocManager.GPS_PROVIDER,
+               /* mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                         1000 * 60,
                         10,
-                        mlocListener);
+                     mlocListener);*/
 
-                location = mlocManager.getLastKnownLocation(mlocManager.GPS_PROVIDER);
+                location = mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
                 if (location != null){
                     coordenadas.add(0,location.getLatitude());
                     coordenadas.add(1,location.getLongitude());
                     //lat = location.getLatitude();
                     //lon = location.getLongitude();
                 }else{
+                    Log.e("CoordenadasThread", "location es null!!");
                     lat = 0.0;
                     lon = 0.0;
                 }
@@ -85,6 +106,7 @@ public class CoordenadasThread extends Thread{
             //Log.i("lat", Double.toString(lat));
             //Log.i("lon", Double.toString(lon));
         }
+        else Log.i("CoordenadasThread", "Provider disabled");
     }
 
     public ArrayList<Double> getCoordenadas() {

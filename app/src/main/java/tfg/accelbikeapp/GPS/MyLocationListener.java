@@ -13,15 +13,15 @@ public class MyLocationListener implements LocationListener {
 
     public MyLocationListener(){
 
-        Looper.prepare();
+       //Looper.prepare();
 
     }
 
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.i("LocationListener", Double.toString(location.getLatitude()));
-        Log.i("LocationListener", Double.toString(location.getLongitude()));
+
+        //TODO Aprovechar esto para guardar la ultima localizacion, e irla comprobando desde CoordenadasThread.
 
     }
 
