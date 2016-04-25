@@ -40,10 +40,10 @@ public class FileManager{
          archivo = new File(fullpath, sesion);
     }
 
-    public void guardar(String x, String y, String z){
+    public void guardar(String x, String y, String z, String lat, String lon){
         //Chupa Carlos
         //String filename = "prueba";
-        String content = x + ";" + y + ";" + z ;
+        String content = x + ";" + y + ";" + z + ";" + lat + ";" + lon ;
         Log.i("CHUPA CARLOS", content);
 
         try {
@@ -87,7 +87,6 @@ public class FileManager{
             //Log.e("Leer", ex.getMessage());
             ex.printStackTrace();
         }
-
         return texto;
     }
 }

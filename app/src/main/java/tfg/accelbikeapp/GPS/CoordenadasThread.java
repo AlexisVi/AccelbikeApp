@@ -7,10 +7,12 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * Created by alexis on 25/04/16.
  */
-public class CoordenadasThread /*extends Thread*/{
+public class CoordenadasThread extends Thread{
 
     private double lat;
     private double lon;
@@ -18,6 +20,7 @@ public class CoordenadasThread /*extends Thread*/{
     private LocationManager mlocManager;
     private MyLocationListener mlocListener;
     private Location location;
+    private ArrayList<Double> coordenadas;
 
     private boolean gpsActivo;
 
@@ -31,6 +34,22 @@ public class CoordenadasThread /*extends Thread*/{
         //mlocListener.setMainActivity(this);
         //mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
 
+    }
+
+    public void run(){
+        while (!Thread.interrupted()) {
+
+            getLocation();
+
+            try {
+
+                Thread.sleep(1000);
+
+            } catch (InterruptedException e) {
+                return;
+
+            }
+        }
     }
 
     public void getLocation(){
@@ -47,8 +66,10 @@ public class CoordenadasThread /*extends Thread*/{
 
                 location = mlocManager.getLastKnownLocation(mlocManager.GPS_PROVIDER);
                 if (location != null){
-                    lat = location.getLatitude();
-                    lon = location.getLongitude();
+                    coordenadas.add(0,location.getLatitude());
+                    coordenadas.add(1,location.getLongitude());
+                    //lat = location.getLatitude();
+                    //lon = location.getLongitude();
                 }else{
                     lat = 0.0;
                     lon = 0.0;
@@ -61,8 +82,12 @@ public class CoordenadasThread /*extends Thread*/{
 
             }
 
-            Log.i("lat", Double.toString(lat));
-            Log.i("lon", Double.toString(lon));
+            //Log.i("lat", Double.toString(lat));
+            //Log.i("lon", Double.toString(lon));
         }
+    }
+
+    public ArrayList<Double> getCoordenadas() {
+        return coordenadas;
     }
 }
