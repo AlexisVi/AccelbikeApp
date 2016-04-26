@@ -32,13 +32,6 @@ public class ConfigFragment extends Fragment {
     Switch gps;
     Button ble;
     ListView lista;
-    String[] datosLista = {"Dispositivos"};
-
-    Boolean statusGPS;
-
-    BluetoothGattCharacteristic characteristic;
-    private Handler mHandler;
-    boolean enabled;
 
     private tfg.accelbikeapp.Bluetooth.BluetoothManager manager;
     private static final long SCAN_PERIOD = 1000;

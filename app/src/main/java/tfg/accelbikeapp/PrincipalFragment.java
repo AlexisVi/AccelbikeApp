@@ -1,5 +1,10 @@
 package tfg.accelbikeapp;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -11,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.Date;
 import java.util.List;
 import tfg.accelbikeapp.Bluetooth.BLEGatt;
@@ -63,26 +70,28 @@ public class PrincipalFragment extends Fragment implements GattObserver {
             @Override
             public void onClick(View v) {
 
-                //fecha = new Date();
-
-                //Log.i("Principal",fechaAux);
-                //fileManager.updateSesion(fecha.toString());
-
-                /*final String pepe = fileManager.leer();
-
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        acel.setText(pepe);
-
-                    }
-                });*/
-
                 // Si no esta conectado al dispositivo no hacemos nada
                 if (!BLEGatt.getInstancia().isConnected()){
 
                     //TODO mandar a la pantalla de configuracion?
+                    /*android.support.v4.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(R.id., new ConfigFragment());
+                    transaction.addToBackStack(null);
+
+                    // Commit the transaction
+                    transaction.commit();*/
+                    Toast.makeText(getContext(), "Conectate a un dispositivo antes", Toast.LENGTH_LONG).show();
+                    return;
+
+                }
+
+                // Sacamos el servicio de ubicacion para comprobar si esta activado
+                LocationManager loc =
+                        (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+
+                if (!loc.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+
+                    startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                     return;
 
                 }
@@ -104,6 +113,7 @@ public class PrincipalFragment extends Fragment implements GattObserver {
                 crono.stop();
                 //Calcular COSITAS
                 stopThread();
+
             }
         });
     }
@@ -112,8 +122,8 @@ public class PrincipalFragment extends Fragment implements GattObserver {
 
         //th = new BluetoothThread();
         th = new FileThread(this.getContext());
-
         th.start();
+
     }
 
     public void stopThread(){
@@ -133,9 +143,7 @@ public class PrincipalFragment extends Fragment implements GattObserver {
     }
 
     public void onDataRead(final List<Short> valores){
-        //final String datos;
-        //fileManager.updateSesion("sesionActual");
-        //datos = fileManager.leer();
+
         this.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -144,12 +152,7 @@ public class PrincipalFragment extends Fragment implements GattObserver {
                              Short.toString(valores.get(1)) + ", " +
                              Short.toString(valores.get(2)));
 
-                //acel.setText(datos);
-
             }
         });
-
-        //fileManager.guardar(Short.toString(valores.get(0)), Short.toString(valores.get(1)),
-        //   Short.toString(valores.get(2)));
     }
 }
