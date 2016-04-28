@@ -82,6 +82,7 @@ public class PrincipalFragment extends Fragment implements GattObserver {
                     transaction.commit();*/
                     Toast.makeText(getContext(), "Conectate a un dispositivo antes", Toast.LENGTH_LONG).show();
                     return;
+                    // Nuevoo
 
                 }
 
