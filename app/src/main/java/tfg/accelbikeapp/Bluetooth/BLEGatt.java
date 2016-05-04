@@ -141,7 +141,7 @@ public class BLEGatt {
         if (mGatt == null){
 
             mGatt = device.connectGatt(context, false, gattCallback);
-            //scanLeDevice(false);
+
         }
     }
 

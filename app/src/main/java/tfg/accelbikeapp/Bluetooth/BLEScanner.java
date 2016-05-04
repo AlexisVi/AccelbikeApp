@@ -102,6 +102,8 @@ public class BLEScanner {
         if (scanner != null)
             scanner.stopScan(mScanCallback);
         scanner = null;
+        listeners.clear();
+        listeners = null;
 
     }
 }

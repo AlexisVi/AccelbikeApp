@@ -37,23 +37,33 @@ public class Dispatcher {
 
             case LOAD_MAP:
                 MapaFragment mapa = new MapaFragment();
-                FragmentLoader.getInstancia().cargar(mapa);
+                FragmentLoader.getInstancia().cargar(mapa, "MAPA_FRAGMENT");
                 mapa.setPolilinea((PolylineOptions) data);
                 break;
 
             case BLE_DESACTIVADO:
                 Intent turnBTon = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                // FIXME Esto es horrible, si cambia de fragment mientras aun esta buscando, va a petar
-                // TODO mirar tags para cargar y ver el actual
-                ConfigFragment config = (ConfigFragment)FragmentLoader.getInstancia().getCurrentFragment();
-                config.startActivityForResult(turnBTon, REQUEST_ENABLE_BT);
+                ConfigFragment fragment =
+                        (ConfigFragment)FragmentLoader.getInstancia().getFragmentById("CONFIG_FRAGMENT");
+
+                if (fragment != null){
+
+                    fragment.startActivityForResult(turnBTon, REQUEST_ENABLE_BT);
+
+                }
+
                 break;
 
             case BLE_SCAN_RESULT:
-                // FIXME Esto es horrible, si cambia de fragment mientras aun esta buscando, va a petar
-                // TODO mirar tags para cargar y ver el actual
-                ConfigFragment config2 = (ConfigFragment)FragmentLoader.getInstancia().getCurrentFragment();
-                config2.addDevice((BluetoothDevice)data);
+                ConfigFragment fragment2 =
+                        (ConfigFragment)FragmentLoader.getInstancia().getFragmentById("CONFIG_FRAGMENT");
+
+                if (fragment2 != null){
+
+                    fragment2.addDevice((BluetoothDevice) data);
+
+                }
+
                 break;
 
         }

@@ -24,9 +24,9 @@ public class FileThread extends Thread {
 
     private static final int TIME = 5000;
 
-    public FileThread(Context context){
+    public FileThread(Context context, String name){
 
-        super();
+        super(name);
         bluThread = new BluetoothThread();
         locThread = new CoordenadasThread(context);
         filemanager = new FileManager(context);
@@ -34,6 +34,8 @@ public class FileThread extends Thread {
     }
 
     public void run(){
+
+        Log.i("FileThread", "Empezando con PID: " + getId());
 
         bluThread.start();
         locThread.start();

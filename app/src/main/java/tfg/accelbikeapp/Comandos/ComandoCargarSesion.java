@@ -23,5 +23,4 @@ public class ComandoCargarSesion implements Comando {
         Dispatcher.getInstancia().dispatch(Response.LOAD_MAP, pol);
 
     }
-
 }

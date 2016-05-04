@@ -5,6 +5,6 @@ package tfg.accelbikeapp;
  */
 public enum Evento {
 
-    ESCANEAR_BLE, CARGAR_SESION
+    ESCANEAR_BLE, CONECTAR_BLE, EMPEZAR_SESION, PARAR_SESION, CARGAR_SESION
 
 }

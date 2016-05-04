@@ -39,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
          * Here , we are inflating the TabFragment as the first Fragment
          */
         //TODO esto es super feo, peeeeero
-        FragmentLoader.getInstancia().init( getSupportFragmentManager() );
+        FragmentLoader.getInstancia().init(getSupportFragmentManager());
 
-        FragmentLoader.getInstancia().cargar(new TabFragment());
+        FragmentLoader.getInstancia().cargar(new TabFragment(), "TAB_FRAGMENT");
 
         /**
          * Setup click events on the Navigation View Items.
@@ -52,15 +52,15 @@ public class MainActivity extends AppCompatActivity {
                 mDrawerLayout.closeDrawers();
 
                 if (menuItem.getItemId() == R.id.nav_item_inbox) {
-                    FragmentLoader.getInstancia().cargar(new TabFragment());
+                    FragmentLoader.getInstancia().cargar(new TabFragment(), "TAB_FRAGMENT");
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_config) {
-                    FragmentLoader.getInstancia().cargar(new ConfigFragment());
+                    FragmentLoader.getInstancia().cargar(new ConfigFragment(), "CONFIG_FRAGMENT");
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_help) {
-                    FragmentLoader.getInstancia().cargar(new HelpFragment());
+                    FragmentLoader.getInstancia().cargar(new HelpFragment(), "HELP_FRAGMENT");
                 }
                 return false;
             }

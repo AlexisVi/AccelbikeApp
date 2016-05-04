@@ -12,7 +12,6 @@ public class FragmentLoader {
     private static FragmentLoader instancia;
 
     private FragmentManager mFragmentManager;
-    private Fragment currentFragment;
 
     private FragmentLoader() {}
 
@@ -31,18 +30,16 @@ public class FragmentLoader {
 
     }
 
-    public void cargar(Fragment fragment){
+    public Fragment getFragmentById(String id){
 
-        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.containerView, fragment).commit();
-
-        currentFragment = fragment;
+        return mFragmentManager.findFragmentByTag(id);
 
     }
 
-    public Fragment getCurrentFragment(){
+    public void cargar(Fragment fragment, String tag){
 
-        return currentFragment;
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.replace(R.id.containerView, fragment, tag).commit();
 
     }
 }

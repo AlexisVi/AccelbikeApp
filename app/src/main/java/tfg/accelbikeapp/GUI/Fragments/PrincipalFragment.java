@@ -108,7 +108,8 @@ public class PrincipalFragment extends Fragment implements GattObserver {
                 inicio.setEnabled(false);
                 parar.setEnabled(true);
                 crono.setBase(SystemClock.elapsedRealtime());
-                startThread();
+                //startThread();
+                activity.getControlador().accion(Evento.EMPEZAR_SESION, "FILE_THREAD");
             }
         });
 
@@ -121,9 +122,10 @@ public class PrincipalFragment extends Fragment implements GattObserver {
                 crono.stop();
                 //Calcular COSITAS
 
+                activity.getControlador().accion(Evento.PARAR_SESION, "FILE_THREAD");
                 activity.getControlador().accion(Evento.CARGAR_SESION, "sesionAlexis");
 
-                stopThread();
+               // stopThread();
 
             }
         });
@@ -132,7 +134,7 @@ public class PrincipalFragment extends Fragment implements GattObserver {
     public void startThread(){
 
         //th = new BluetoothThread();
-        th = new FileThread(this.getContext());
+        th = new FileThread(this.getContext(), "PENE");
         th.start();
 
     }

@@ -20,6 +20,7 @@ import android.content.Intent;
 
 import java.util.ArrayList;
 
+import tfg.accelbikeapp.Controlador;
 import tfg.accelbikeapp.Evento;
 import tfg.accelbikeapp.MainActivity;
 import tfg.accelbikeapp.R;
@@ -34,7 +35,6 @@ public class ConfigFragment extends Fragment {
     Button ble;
     ListView lista;
 
-    private tfg.accelbikeapp.Bluetooth.BluetoothManager manager;
     private static final long SCAN_PERIOD = 1000;
 
     private static final int REQUEST_ENABLE_BT = 1;
@@ -50,12 +50,25 @@ public class ConfigFragment extends Fragment {
         View v = inflater.inflate(R.layout.config_layout, null);
         initUI(v);
         return v;
+
     }
 
     public void initUI(View v){
 
         gps = (Switch) v.findViewById(R.id.switch1);
+
+        final Controlador controlador = ((MainActivity)getActivity()).getControlador();
+
         ble = (Button) v.findViewById(R.id.botonble);
+        ble.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                controlador.accion(Evento.ESCANEAR_BLE, null);
+
+            }
+        });
+
         lista = (ListView) v.findViewById(R.id.listble);
 
         dispositivos = new ArrayList<>();
@@ -63,52 +76,13 @@ public class ConfigFragment extends Fragment {
 
         lista.setAdapter(dispAdapter);
 
-       // manager = new tfg.accelbikeapp.Bluetooth.BluetoothManager(this.getContext(), dispositivos);
-
-        final MainActivity activity = (MainActivity)getActivity();
-
-        ble.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                activity.getControlador().accion(Evento.ESCANEAR_BLE, null);
-
-            }
-        });
-
-        // Configurar el boton
-        /*if (!manager.bluetoothDisponible())
-            ble.setEnabled(false);
-        else
-            ble.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                if (!manager.bluetoothActivado()){
-
-                    Intent turnBTon = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                    startActivityForResult(turnBTon, REQUEST_ENABLE_BT);
-
-                }
-                else listar();
-
-                }
-            });*/
-
-        //-------------Bluetooth---------------
-
-        // Con el boolean statusGPS aqui tenemos que controlar que
-        // todo ha ido bien para que cuando cargemos la lista no pete!!
-        lista.setEnabled(true);
-        /*ArrayAdapter<String> adapatdor = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_spinner_item, datosLista);
-        lista.setAdapter(adapatdor);*/
-
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                manager.conectarDispositivo(dispositivos.get(position));
+                controlador.accion(Evento.CONECTAR_BLE, dispositivos.get(position));
+                //manager.conectarDispositivo(dispositivos.get(position));
 
             }
         });
@@ -121,33 +95,9 @@ public class ConfigFragment extends Fragment {
 
     }
 
-    public void listar(){
-
-        Handler mHandler = new Handler();
-
-        manager.listarDispositivos();
-
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                manager.pararEscaneo();
-                dispAdapter.notifyDataSetChanged();
-
-            }
-        }, SCAN_PERIOD); // mHandler.postDelayed
-    }
-
-    public void mostrarToast(String mensaje){
-        Toast.makeText(this.getContext(), mensaje, Toast.LENGTH_LONG).show();
-    }
-
     public void onDestroy(){
 
         super.onDestroy();
-
-        manager.destroy();
-        manager = null;
 
         Log.i("ConfigFragment", "destruido");
 
@@ -159,7 +109,8 @@ public class ConfigFragment extends Fragment {
         if (requestCode == REQUEST_ENABLE_BT){
             if (resultCode != Activity.RESULT_CANCELED){
 
-                listar();
+                MainActivity activity = (MainActivity)getActivity();
+                activity.getControlador().accion(Evento.ESCANEAR_BLE, null);
 
             }
         }
