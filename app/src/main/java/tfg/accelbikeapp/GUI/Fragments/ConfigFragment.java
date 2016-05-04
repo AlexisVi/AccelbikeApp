@@ -1,8 +1,7 @@
-package tfg.accelbikeapp;
+package tfg.accelbikeapp.GUI.Fragments;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,7 +20,9 @@ import android.content.Intent;
 
 import java.util.ArrayList;
 
-import tfg.accelbikeapp.Bluetooth.DispAdapter;
+import tfg.accelbikeapp.Evento;
+import tfg.accelbikeapp.MainActivity;
+import tfg.accelbikeapp.R;
 
 /**
  * Created by David on 23/02/2016.
@@ -38,6 +39,7 @@ public class ConfigFragment extends Fragment {
 
     private static final int REQUEST_ENABLE_BT = 1;
 
+    private ArrayList<BluetoothDevice> dispositivos;
     private DispAdapter dispAdapter;
 
     @Nullable
@@ -56,15 +58,26 @@ public class ConfigFragment extends Fragment {
         ble = (Button) v.findViewById(R.id.botonble);
         lista = (ListView) v.findViewById(R.id.listble);
 
-        final ArrayList<BluetoothDevice> dispositivos = new ArrayList<>();
+        dispositivos = new ArrayList<>();
         dispAdapter = new DispAdapter(getContext(), dispositivos);
 
         lista.setAdapter(dispAdapter);
 
-        manager = new tfg.accelbikeapp.Bluetooth.BluetoothManager(this.getContext(), dispositivos);
+       // manager = new tfg.accelbikeapp.Bluetooth.BluetoothManager(this.getContext(), dispositivos);
+
+        final MainActivity activity = (MainActivity)getActivity();
+
+        ble.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                activity.getControlador().accion(Evento.ESCANEAR_BLE, null);
+
+            }
+        });
 
         // Configurar el boton
-        if (!manager.bluetoothDisponible())
+        /*if (!manager.bluetoothDisponible())
             ble.setEnabled(false);
         else
             ble.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +93,7 @@ public class ConfigFragment extends Fragment {
                 else listar();
 
                 }
-            });
+            });*/
 
         //-------------Bluetooth---------------
 
@@ -99,6 +112,13 @@ public class ConfigFragment extends Fragment {
 
             }
         });
+    }
+
+    public void addDevice(BluetoothDevice device){
+
+        dispositivos.add(device);
+        dispAdapter.notifyDataSetChanged();
+
     }
 
     public void listar(){

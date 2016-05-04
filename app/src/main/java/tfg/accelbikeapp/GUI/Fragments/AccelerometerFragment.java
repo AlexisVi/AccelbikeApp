@@ -1,4 +1,4 @@
-package tfg.accelbikeapp;
+package tfg.accelbikeapp.GUI.Fragments;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+
+import tfg.accelbikeapp.R;
 
 
 /**

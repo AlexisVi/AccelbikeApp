@@ -1,4 +1,4 @@
-package tfg.accelbikeapp;
+package tfg.accelbikeapp.GUI.Fragments;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

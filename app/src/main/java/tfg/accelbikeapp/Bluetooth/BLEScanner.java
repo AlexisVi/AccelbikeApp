@@ -19,7 +19,7 @@ import java.util.List;
 public class BLEScanner {
 
     private BluetoothLeScanner scanner;
-    private ArrayList<BluetoothDevice> dispositivos;
+    private ArrayList<ScanListener> listeners;
 
     private ScanCallback mScanCallback = new ScanCallback() {
 
@@ -29,40 +29,28 @@ public class BLEScanner {
             //Log.i("callbackType", String.valueOf(callbackType));
             Log.i("result", result.toString());
 
-            String mensaje;
-            BluetoothDevice btDevice = result.getDevice();
-            mensaje = result.toString();
+            // Mostrar el dispositivo en la lista
+            for (ScanListener listener: listeners) {
 
-
-                // Mostrar el dispositivo en la lista
-            if(!dispositivos.contains(btDevice)) {
-
-                dispositivos.add(btDevice);
+                listener.onScanResult(result.getDevice());
 
             }
-
         }
 
         @Override
         public void onBatchScanResults(List<ScanResult> results) {
 
-            String mensaje;
-
             for (ScanResult sr : results) {
 
                 Log.i("ScanResult - Results", sr.toString());
 
-                BluetoothDevice btDevice = sr.getDevice();
-                mensaje = btDevice.toString();
-
-                //mensaje = sr.toString();
-                // mostrarToast(mensaje);
-
                 // Mostrar el dispositivo en la lista
-                if(!dispositivos.contains(btDevice)) {
+                for (ScanListener listener: listeners) {
+                    for (ScanResult sc : results) {
 
-                    dispositivos.add(btDevice);
+                        listener.onScanResult(sc.getDevice());
 
+                    }
                 }
             }
         }
@@ -77,9 +65,15 @@ public class BLEScanner {
     };
 
 
-    public BLEScanner(ArrayList<BluetoothDevice> disp){
+    public BLEScanner(){
 
-        dispositivos = disp;
+        listeners = new ArrayList<>();
+
+    }
+
+    public void registerScanListener(ScanListener listener){
+
+        listeners.add(listener);
 
     }
 
@@ -103,17 +97,11 @@ public class BLEScanner {
 
     }
 
-    public List<BluetoothDevice> getLista(){
-
-        return dispositivos;
-
-    }
-
     public void destroy(){
 
         if (scanner != null)
             scanner.stopScan(mScanCallback);
         scanner = null;
-        dispositivos = null;
+
     }
 }

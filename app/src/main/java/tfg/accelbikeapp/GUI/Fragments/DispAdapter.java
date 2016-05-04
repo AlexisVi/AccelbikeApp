@@ -1,4 +1,4 @@
-package tfg.accelbikeapp.Bluetooth;
+package tfg.accelbikeapp.GUI.Fragments;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;

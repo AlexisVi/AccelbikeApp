@@ -10,17 +10,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import tfg.accelbikeapp.Bluetooth.BLEGatt;
+import tfg.accelbikeapp.GUI.Fragments.ConfigFragment;
+import tfg.accelbikeapp.GUI.Fragments.HelpFragment;
+import tfg.accelbikeapp.GUI.Fragments.TabFragment;
 
 public class MainActivity extends AppCompatActivity {
+
     DrawerLayout mDrawerLayout;
     NavigationView mNavigationView;
-    FragmentManager mFragmentManager;
-    FragmentTransaction mFragmentTransaction;
+    Controlador controlador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        controlador = new Controlador(getApplicationContext());
 
         /**
          *Setup the DrawerLayout and NavigationView
@@ -33,10 +38,11 @@ public class MainActivity extends AppCompatActivity {
          * Lets inflate the very first fragment
          * Here , we are inflating the TabFragment as the first Fragment
          */
+        //TODO esto es super feo, peeeeero
+        FragmentLoader.getInstancia().init( getSupportFragmentManager() );
 
-        mFragmentManager = getSupportFragmentManager();
-        mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
+        FragmentLoader.getInstancia().cargar(new TabFragment());
+
         /**
          * Setup click events on the Navigation View Items.
          */
@@ -46,18 +52,15 @@ public class MainActivity extends AppCompatActivity {
                 mDrawerLayout.closeDrawers();
 
                 if (menuItem.getItemId() == R.id.nav_item_inbox) {
-                    FragmentTransaction inboxFragmentTransaction = mFragmentManager.beginTransaction();
-                    inboxFragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
+                    FragmentLoader.getInstancia().cargar(new TabFragment());
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_config) {
-                    FragmentTransaction configFragmentTransaction = mFragmentManager.beginTransaction();
-                    configFragmentTransaction.replace(R.id.containerView,new ConfigFragment()).commit();
+                    FragmentLoader.getInstancia().cargar(new ConfigFragment());
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_help) {
-                    FragmentTransaction helpFragmentTransaction = mFragmentManager.beginTransaction();
-                    helpFragmentTransaction.replace(R.id.containerView,new HelpFragment()).commit();
+                    FragmentLoader.getInstancia().cargar(new HelpFragment());
                 }
                 return false;
             }
@@ -78,4 +81,6 @@ public class MainActivity extends AppCompatActivity {
         BLEGatt.getInstancia().disconnect();
 
     }
+
+    public Controlador getControlador(){ return controlador; }
 }

@@ -1,4 +1,4 @@
-package tfg.accelbikeapp;
+package tfg.accelbikeapp.GUI.Fragments;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -22,13 +22,19 @@ import java.util.Date;
 import java.util.List;
 import tfg.accelbikeapp.Bluetooth.BLEGatt;
 import tfg.accelbikeapp.Bluetooth.GattObserver;
+import tfg.accelbikeapp.Comandos.ComandoCargarSesion;
+import tfg.accelbikeapp.Evento;
 import tfg.accelbikeapp.File.FileManager;
 import tfg.accelbikeapp.File.FileThread;
+import tfg.accelbikeapp.MainActivity;
+import tfg.accelbikeapp.R;
 
 /**
  * Created by David on 22/02/2016.
  */
 public class PrincipalFragment extends Fragment implements GattObserver {
+
+    MainActivity activity;
 
     Button inicio, parar;
     Chronometer crono;
@@ -48,6 +54,8 @@ public class PrincipalFragment extends Fragment implements GattObserver {
         //RelativeLayout ll = (RelativeLayout) inflater.inflate(R.layout.principal_layout, container, false);
         View v = inflater.inflate(R.layout.principal_layout, null);
         BLEGatt.getInstancia().registerObserver(this);
+
+        activity = (MainActivity)getActivity();
 
         fileManager = new FileManager(getContext());
 
@@ -82,7 +90,6 @@ public class PrincipalFragment extends Fragment implements GattObserver {
                     transaction.commit();*/
                     Toast.makeText(getContext(), "Conectate a un dispositivo antes", Toast.LENGTH_LONG).show();
                     return;
-                    // Nuevoo
 
                 }
 
@@ -113,6 +120,9 @@ public class PrincipalFragment extends Fragment implements GattObserver {
                 parar.setEnabled(false);
                 crono.stop();
                 //Calcular COSITAS
+
+                activity.getControlador().accion(Evento.CARGAR_SESION, "sesionAlexis");
+
                 stopThread();
 
             }

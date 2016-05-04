@@ -15,15 +15,21 @@ public class BluetoothManager {
     private BluetoothAdapter bAdapter;
     private BLEScanner mScanner;
 
-    public BluetoothManager(Context context, ArrayList<BluetoothDevice> disp){
+    public BluetoothManager(Context context){
 
         this.context = context;
 
-        mScanner = new BLEScanner(disp);
+        mScanner = new BLEScanner();
         final android.bluetooth.BluetoothManager bluetoothManager =
                 (android.bluetooth.BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
 
         bAdapter = bluetoothManager.getAdapter();
+
+    }
+
+    public void registerScannerListener(ScanListener listener){
+
+        mScanner.registerScanListener(listener);
 
     }
 
@@ -55,7 +61,6 @@ public class BluetoothManager {
 
         BLEGatt.getInstancia().disconnect();
         BLEGatt.getInstancia().connectToDevice(context, bd);
-        //BLEGatt.getInstancia().leer(); // TODO Quitar esto de aqui
 
     }
 
