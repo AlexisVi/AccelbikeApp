@@ -78,21 +78,6 @@ public class PrincipalFragment extends Fragment implements GattObserver {
             @Override
             public void onClick(View v) {
 
-                // Si no esta conectado al dispositivo no hacemos nada
-                if (!BLEGatt.getInstancia().isConnected()){
-
-                    //TODO mandar a la pantalla de configuracion?
-                    /*android.support.v4.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    transaction.replace(R.id., new ConfigFragment());
-                    transaction.addToBackStack(null);
-
-                    // Commit the transaction
-                    transaction.commit();*/
-                    Toast.makeText(getContext(), "Conectate a un dispositivo antes", Toast.LENGTH_LONG).show();
-                    return;
-
-                }
-
                 // Sacamos el servicio de ubicacion para comprobar si esta activado
                 LocationManager loc =
                         (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
@@ -109,6 +94,7 @@ public class PrincipalFragment extends Fragment implements GattObserver {
                 parar.setEnabled(true);
                 crono.setBase(SystemClock.elapsedRealtime());
                 //startThread();
+                // TODO Le podriamos pasar como nombre para el thread el nombre del archivo
                 activity.getControlador().accion(Evento.EMPEZAR_SESION, "FILE_THREAD");
             }
         });

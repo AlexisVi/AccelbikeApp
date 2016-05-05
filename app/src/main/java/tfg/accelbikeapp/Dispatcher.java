@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -64,6 +65,13 @@ public class Dispatcher {
 
                 }
 
+                break;
+
+            case GATT_DESCONECTADO:
+                ConfigFragment fragment3 = new ConfigFragment();
+                FragmentLoader.getInstancia().cargar(fragment3, "CONFIG_FRAGMENT");
+                //Toast.makeText(fragment3.getContext(), "Conectalo al blutuu", Toast.LENGTH_LONG).show();
+                // TODO Pasarle algun parametro por Bundle para que muestre el mensaje
                 break;
 
         }
