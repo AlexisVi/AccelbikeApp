@@ -41,9 +41,6 @@ public class PrincipalFragment extends Fragment implements GattObserver {
     Chronometer crono;
     TextView acel;
 
-    private FileManager fileManager;
-    private Date fecha;
-
     private String sesion;
 
     Thread th;
@@ -59,8 +56,6 @@ public class PrincipalFragment extends Fragment implements GattObserver {
         BLEGatt.getInstancia().registerObserver(this);
 
         activity = (MainActivity)getActivity();
-
-        fileManager = new FileManager(getContext());
 
         initUI(v);
         return v;
@@ -95,12 +90,14 @@ public class PrincipalFragment extends Fragment implements GattObserver {
                 }
 
                 Calendar calendar = Calendar.getInstance();
+                String year = String.format("%04d", calendar.get(Calendar.YEAR));
+                String month = String.format("%02d", calendar.get(Calendar.MONTH));
+                String day = String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH));
+                String hour = String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY));
+                String min = String.format("%02d", calendar.get(Calendar.MINUTE));
+                String sec = String.format("%02d", calendar.get(Calendar.SECOND));
 
-                sesion = calendar.get(Calendar.YEAR) + "_" +
-                        calendar.get(Calendar.MONTH) + "_" +
-                        calendar.get(Calendar.DAY_OF_MONTH) + "_" +
-                        calendar.get(Calendar.HOUR_OF_DAY) + "_" +
-                        calendar.get(Calendar.MINUTE);
+                sesion = year + "_" + month + "_" + day + "_" + hour + "_" + min + "_" + sec;
 
                 Log.i("FECHAAAA", sesion);
 
