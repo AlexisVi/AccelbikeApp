@@ -20,9 +20,9 @@ public class FileThread extends Thread {
     private BluetoothThread bluThread;
     private CoordenadasThread locThread;
 
-    private Date fecha;
-
     private static final int TIME = 5000;
+
+    private String fileName;
 
     public FileThread(Context context, String name){
 
@@ -30,6 +30,7 @@ public class FileThread extends Thread {
         bluThread = new BluetoothThread();
         locThread = new CoordenadasThread(context);
         filemanager = new FileManager(context);
+        fileName = name;
 
     }
 
@@ -40,9 +41,7 @@ public class FileThread extends Thread {
         bluThread.start();
         locThread.start();
 
-        fecha = new Date();
-
-        filemanager.updateSesion("sesionAlexis");
+        filemanager.updateSesion(fileName);
 
         while (!Thread.interrupted()) {
 

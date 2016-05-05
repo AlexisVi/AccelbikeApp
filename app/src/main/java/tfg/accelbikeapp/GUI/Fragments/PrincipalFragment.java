@@ -18,6 +18,7 @@ import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import tfg.accelbikeapp.Bluetooth.BLEGatt;
@@ -42,6 +43,8 @@ public class PrincipalFragment extends Fragment implements GattObserver {
 
     private FileManager fileManager;
     private Date fecha;
+
+    private String sesion;
 
     Thread th;
 
@@ -74,6 +77,8 @@ public class PrincipalFragment extends Fragment implements GattObserver {
         parar.setEnabled(false);
         acel.setText("info acel");
 
+        sesion = "default";
+
         inicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,13 +94,22 @@ public class PrincipalFragment extends Fragment implements GattObserver {
 
                 }
 
+                Calendar calendar = Calendar.getInstance();
+
+                sesion = calendar.get(Calendar.YEAR) + "_" +
+                        calendar.get(Calendar.MONTH) + "_" +
+                        calendar.get(Calendar.DAY_OF_MONTH) + "_" +
+                        calendar.get(Calendar.HOUR_OF_DAY) + "_" +
+                        calendar.get(Calendar.MINUTE);
+
+                Log.i("FECHAAAA", sesion);
+
                 crono.start();
                 inicio.setEnabled(false);
                 parar.setEnabled(true);
                 crono.setBase(SystemClock.elapsedRealtime());
                 //startThread();
-                // TODO Le podriamos pasar como nombre para el thread el nombre del archivo
-                activity.getControlador().accion(Evento.EMPEZAR_SESION, "FILE_THREAD");
+                activity.getControlador().accion(Evento.EMPEZAR_SESION, sesion);
             }
         });
 
@@ -108,8 +122,8 @@ public class PrincipalFragment extends Fragment implements GattObserver {
                 crono.stop();
                 //Calcular COSITAS
 
-                activity.getControlador().accion(Evento.PARAR_SESION, "FILE_THREAD");
-                activity.getControlador().accion(Evento.CARGAR_SESION, "sesionAlexis");
+                activity.getControlador().accion(Evento.PARAR_SESION, sesion);
+                activity.getControlador().accion(Evento.CARGAR_SESION, sesion);
 
                // stopThread();
 
