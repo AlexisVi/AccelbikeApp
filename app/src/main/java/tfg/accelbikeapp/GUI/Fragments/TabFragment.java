@@ -11,8 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
+import tfg.accelbikeapp.Controlador;
+import tfg.accelbikeapp.Evento;
 import tfg.accelbikeapp.GUI.Fragments.ActividadesFragment;
 import tfg.accelbikeapp.GUI.Fragments.PrincipalFragment;
+import tfg.accelbikeapp.MainActivity;
 import tfg.accelbikeapp.R;
 
 /**
@@ -24,6 +30,9 @@ public class TabFragment extends Fragment {
     public static ViewPager viewPager;
     public static int int_items = 2 ;
 
+    public PrincipalFragment principalFragment;
+    public ActividadesFragment actividadesFragment;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,6 +42,18 @@ public class TabFragment extends Fragment {
         View x =  inflater.inflate(R.layout.tab_layout,null);
         tabLayout = (TabLayout) x.findViewById(R.id.tabs);
         viewPager = (ViewPager) x.findViewById(R.id.viewpager);
+
+        final Controlador controlador = ((MainActivity)getActivity()).getControlador();
+
+        principalFragment = new PrincipalFragment();
+        actividadesFragment = new ActividadesFragment(){ // Esto es para que sea lo primero que haga cuando cargue
+
+            @Override
+            public void onResume() {
+                super.onResume();
+                controlador.accion(Evento.CARGAR_TAB, null);
+            }
+        };
 
         /**
          *Set an Apater for the View Pager
@@ -70,8 +91,8 @@ public class TabFragment extends Fragment {
         public Fragment getItem(int position)
         {
             switch (position){
-                case 0 : return new PrincipalFragment();
-                case 1 : return new ActividadesFragment();
+                case 0 : return principalFragment;
+                case 1 : return actividadesFragment;
                 /*case 2 : return new EstadisticasFragment();
                 case 3 : return new AccelerometerFragment();*/
             }
@@ -105,4 +126,11 @@ public class TabFragment extends Fragment {
             return null;
         }
     }
+
+    public void actualizarSesiones(String sesion){
+
+        actividadesFragment.actualizarActividades(sesion);
+
+    }
+
 }

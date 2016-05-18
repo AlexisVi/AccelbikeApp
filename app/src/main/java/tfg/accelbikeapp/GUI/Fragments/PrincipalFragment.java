@@ -91,15 +91,13 @@ public class PrincipalFragment extends Fragment implements GattObserver {
 
                 Calendar calendar = Calendar.getInstance();
                 String year = String.format("%04d", calendar.get(Calendar.YEAR));
-                String month = String.format("%02d", calendar.get(Calendar.MONTH));
+                String month = String.format("%02d", calendar.get(Calendar.MONTH) + 1); // Enero es el mes 0
                 String day = String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH));
                 String hour = String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY));
                 String min = String.format("%02d", calendar.get(Calendar.MINUTE));
                 String sec = String.format("%02d", calendar.get(Calendar.SECOND));
 
-                sesion = year + "_" + month + "_" + day + "_" + hour + "_" + min + "_" + sec;
-
-                Log.i("FECHAAAA", sesion);
+                sesion =  year + "_" + month + "_" + day + "_" + hour + "_" + min + "_" + sec;
 
                 crono.start();
                 inicio.setEnabled(false);
@@ -126,21 +124,6 @@ public class PrincipalFragment extends Fragment implements GattObserver {
 
             }
         });
-    }
-
-    public void startThread(){
-
-        //th = new BluetoothThread();
-        th = new FileThread(this.getContext(), "PENE");
-        th.start();
-
-    }
-
-    public void stopThread(){
-
-        th.interrupt();
-        th = null;
-
     }
 
     public void onDestroy(){

@@ -2,15 +2,21 @@ package tfg.accelbikeapp;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.AttributeSet;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
+
+import tfg.accelbikeapp.GUI.Fragments.ActividadesFragment;
 import tfg.accelbikeapp.GUI.Fragments.ConfigFragment;
 import tfg.accelbikeapp.GUI.Fragments.MapaFragment;
+import tfg.accelbikeapp.GUI.Fragments.TabFragment;
 
 /**
  * Created by rodry on 28/04/16.
@@ -68,10 +74,23 @@ public class Dispatcher {
                 break;
 
             case GATT_DESCONECTADO:
-                ConfigFragment fragment3 = new ConfigFragment();
+                ConfigFragment fragment3 = new ConfigFragment(){
+                    @Override
+                    public void onAttach(Context context) {
+                        super.onAttach(context);
+                        Toast.makeText(context, "Conectalo al blutuu", Toast.LENGTH_LONG).show();
+                    }
+                };
                 FragmentLoader.getInstancia().cargar(fragment3, "CONFIG_FRAGMENT");
-                //Toast.makeText(fragment3.getContext(), "Conectalo al blutuu", Toast.LENGTH_LONG).show();
-                // TODO Pasarle algun parametro por Bundle para que muestre el mensaje
+
+                break;
+
+            case LIST_SESSIONS:
+                TabFragment tb = (TabFragment)FragmentLoader.getInstancia().getFragmentById("TAB_FRAGMENT");
+
+                for (String sesion : (ArrayList<String>) data)
+                    tb.actualizarSesiones(sesion);
+
                 break;
 
         }

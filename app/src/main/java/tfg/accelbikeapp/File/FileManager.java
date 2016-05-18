@@ -15,6 +15,8 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by alexis on 11/04/16.
@@ -47,10 +49,17 @@ public class FileManager {
 
     }
 
+    public ArrayList<String> listarSesiones(){
+
+        String[] ficheros = new File(fullpath).list();
+
+        return new ArrayList<>(Arrays.asList(ficheros));
+
+    }
+
     public void guardar(String x, String y, String z, String lat, String lon){
 
         String content = x + ";" + y + ";" + z + ";" + lat + ";" + lon ;
-        Log.i("CHUPA CARLOS", content);
 
         try {
 

@@ -6,6 +6,7 @@ import tfg.accelbikeapp.Comandos.Comando;
 import tfg.accelbikeapp.Comandos.ComandoCargarSesion;
 import tfg.accelbikeapp.Comandos.ComandoConectBLE;
 import tfg.accelbikeapp.Comandos.ComandoEmpezarSesion;
+import tfg.accelbikeapp.Comandos.ComandoListarSesiones;
 import tfg.accelbikeapp.Comandos.ComandoPararSesion;
 import tfg.accelbikeapp.Comandos.ComandoScanBLE;
 
@@ -27,6 +28,10 @@ public class Controlador {
         Comando c = null;
 
         switch (evento){
+
+            case CARGAR_TAB:
+                c = new ComandoListarSesiones();
+                break;
 
             case ESCANEAR_BLE:
                 c = new ComandoScanBLE();
