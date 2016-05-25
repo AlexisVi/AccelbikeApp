@@ -57,7 +57,5 @@ public class Controlador {
 
         if (c != null)
             c.ejecutar(ctx, datos);
-
     }
-
 }

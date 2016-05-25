@@ -86,7 +86,6 @@ public class PrincipalFragment extends Fragment implements GattObserver {
 
                     startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                     return;
-
                 }
 
                 Calendar calendar = Calendar.getInstance();
@@ -115,6 +114,12 @@ public class PrincipalFragment extends Fragment implements GattObserver {
                 inicio.setEnabled(true);
                 parar.setEnabled(false);
                 crono.stop();
+                Long tiempo =  SystemClock.elapsedRealtime() - crono.getBase();
+                int segundos = (int) (tiempo / 1000) % 60 ;
+                int minutos = (int) ((tiempo / (1000*60)) % 60);
+                int horas   = (int) ((tiempo / (1000*60*60)) % 24);
+
+                Log.i("Tiempo--------", horas + "h " +  minutos + "m " + segundos + "s");
                 //Calcular COSITAS
 
                 activity.getControlador().accion(Evento.PARAR_SESION, sesion);
