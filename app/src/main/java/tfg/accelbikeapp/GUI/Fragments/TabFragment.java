@@ -86,15 +86,12 @@ public class TabFragment extends Fragment {
         /**
          * Return fragment with respect to Position .
          */
-
         @Override
         public Fragment getItem(int position)
         {
             switch (position){
                 case 0 : return principalFragment;
                 case 1 : return actividadesFragment;
-                /*case 2 : return new EstadisticasFragment();
-                case 3 : return new AccelerometerFragment();*/
             }
             return null;
         }
@@ -109,7 +106,6 @@ public class TabFragment extends Fragment {
         /**
          * This method returns the title of the tab according to the position.
          */
-
         @Override
         public CharSequence getPageTitle(int position) {
 
@@ -118,10 +114,6 @@ public class TabFragment extends Fragment {
                     return "Sesión";
                 case 1 :
                     return "Actividades";
-                /*case 2 :
-                    return "Estadísticas";
-                case 3 :
-                    return "Acelerometro";*/
             }
             return null;
         }
@@ -130,7 +122,5 @@ public class TabFragment extends Fragment {
     public void actualizarSesiones(String sesion){
 
         actividadesFragment.actualizarActividades(sesion);
-
     }
-
 }

@@ -2,11 +2,11 @@ package tfg.accelbikeapp.GPS;
 
 import android.content.Context;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import com.google.android.gms.maps.GoogleMap;
+
 
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ public class CoordenadasThread extends Thread{
     private LocationManager mlocManager;
     private MyLocationListener mlocListener;
     private Location location;
-    private volatile ArrayList<Double> coordenadas;
+    private volatile ArrayList<Double> coordenadas; //volatile por "la cosa de pillar" datos cuando se pueden estar modificando
 
     private boolean gpsActivo;
 
@@ -33,6 +33,7 @@ public class CoordenadasThread extends Thread{
         mlocManager = (LocationManager) this.ctx.getSystemService(Context.LOCATION_SERVICE);
         mlocListener = new MyLocationListener();
         coordenadas = new ArrayList<>(2);
+
         //mlocListener.setMainActivity(this);
         //mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
 
@@ -42,7 +43,7 @@ public class CoordenadasThread extends Thread{
 
         try{
 
-            mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, mlocListener, Looper.getMainLooper());
+            mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, mlocListener, Looper.getMainLooper());
 
         }
         catch(SecurityException e){
@@ -88,6 +89,7 @@ public class CoordenadasThread extends Thread{
                 if (location != null){
                     coordenadas.add(0,location.getLatitude());
                     coordenadas.add(1,location.getLongitude());
+
                     //lat = location.getLatitude();
                     //lon = location.getLongitude();
                 }else{

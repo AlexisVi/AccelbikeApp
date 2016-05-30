@@ -17,9 +17,7 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
 import android.content.Intent;
-
 import java.util.ArrayList;
-
 import tfg.accelbikeapp.Controlador;
 import tfg.accelbikeapp.Evento;
 import tfg.accelbikeapp.MainActivity;
@@ -100,8 +98,6 @@ public class ConfigFragment extends Fragment {
         super.onDestroy();
 
         Log.i("ConfigFragment", "destruido");
-
-
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -116,6 +112,5 @@ public class ConfigFragment extends Fragment {
         }
 
         super.onActivityResult(requestCode, resultCode, data);
-
     }
 }

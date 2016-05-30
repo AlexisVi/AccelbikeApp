@@ -4,16 +4,8 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.AttributeSet;
 import android.widget.Toast;
-
-import com.google.android.gms.maps.model.PolylineOptions;
-
 import java.util.ArrayList;
-
-import tfg.accelbikeapp.GUI.Fragments.ActividadesFragment;
 import tfg.accelbikeapp.GUI.Fragments.ConfigFragment;
 import tfg.accelbikeapp.GUI.Fragments.MapaFragment;
 import tfg.accelbikeapp.GUI.Fragments.TabFragment;
@@ -45,7 +37,9 @@ public class Dispatcher {
             case LOAD_MAP:
                 MapaFragment mapa = new MapaFragment();
                 FragmentLoader.getInstancia().cargar(mapa, "MAPA_FRAGMENT");
-                mapa.setPolilinea((PolylineOptions) data);
+                mapa.setPolilinea(((Transfer) data).getPolylineOption());
+                mapa.setSesion(((Transfer) data).getSesion());
+                mapa.setDistancia(((Transfer) data).getDistancia());
                 break;
 
             case BLE_DESACTIVADO:
@@ -78,7 +72,7 @@ public class Dispatcher {
                     @Override
                     public void onAttach(Context context) {
                         super.onAttach(context);
-                        Toast.makeText(context, "Conectalo al blutuu", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Conectalo al Bluetooth", Toast.LENGTH_LONG).show();
                     }
                 };
                 FragmentLoader.getInstancia().cargar(fragment3, "CONFIG_FRAGMENT");
@@ -92,8 +86,6 @@ public class Dispatcher {
                     tb.actualizarSesiones(sesion);
 
                 break;
-
         }
     }
-
 }

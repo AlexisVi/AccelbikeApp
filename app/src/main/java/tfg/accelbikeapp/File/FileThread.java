@@ -1,11 +1,8 @@
 package tfg.accelbikeapp.File;
 
 import android.content.Context;
-import android.os.Looper;
 import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.Date;
 
 import tfg.accelbikeapp.Bluetooth.BluetoothThread;
 import tfg.accelbikeapp.GPS.CoordenadasThread;
@@ -20,7 +17,7 @@ public class FileThread extends Thread {
     private BluetoothThread bluThread;
     private CoordenadasThread locThread;
 
-    private static final int TIME = 5000;
+    private static final int TIME = 2000;
 
     private String fileName;
 
