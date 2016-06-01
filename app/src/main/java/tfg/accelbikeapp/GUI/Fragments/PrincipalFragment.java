@@ -1,7 +1,5 @@
 package tfg.accelbikeapp.GUI.Fragments;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
@@ -16,17 +14,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import tfg.accelbikeapp.Bluetooth.BLEGatt;
 import tfg.accelbikeapp.Bluetooth.GattObserver;
-import tfg.accelbikeapp.Comandos.ComandoCargarSesion;
 import tfg.accelbikeapp.Evento;
-import tfg.accelbikeapp.File.FileManager;
-import tfg.accelbikeapp.File.FileThread;
 import tfg.accelbikeapp.MainActivity;
 import tfg.accelbikeapp.R;
 
@@ -114,19 +106,19 @@ public class PrincipalFragment extends Fragment implements GattObserver {
                 inicio.setEnabled(true);
                 parar.setEnabled(false);
                 crono.stop();
-                Long tiempo =  SystemClock.elapsedRealtime() - crono.getBase();
+                //Long tiempo =  SystemClock.elapsedRealtime() - crono.getBase();
+                /*
                 int segundos = (int) (tiempo / 1000) % 60 ;
                 int minutos = (int) ((tiempo / (1000*60)) % 60);
                 int horas   = (int) ((tiempo / (1000*60*60)) % 24);
-
                 Log.i("Tiempo--------", horas + "h " +  minutos + "m " + segundos + "s");
-                //Calcular COSITAS
+                */
+                //TransferInfo transfer = new TransferInfo(tiempo, sesion);
 
                 activity.getControlador().accion(Evento.PARAR_SESION, sesion);
                 activity.getControlador().accion(Evento.CARGAR_SESION, sesion);
 
                // stopThread();
-
             }
         });
     }
@@ -137,7 +129,6 @@ public class PrincipalFragment extends Fragment implements GattObserver {
 
         super.onDestroy();
         BLEGatt.getInstancia().removeObserver(this);
-
     }
 
     public void onDataRead(final List<Short> valores){
@@ -149,7 +140,6 @@ public class PrincipalFragment extends Fragment implements GattObserver {
                 acel.setText(Short.toString(valores.get(0)) + ", " +
                              Short.toString(valores.get(1)) + ", " +
                              Short.toString(valores.get(2)));
-
             }
         });
     }

@@ -17,11 +17,16 @@ public class ComandoCargarSesion implements Comando {
 
         FileManager fileManager = new FileManager(ctx);
         fileManager.updateSesion((String) path);
-        ArrayList<PolylineOptions> pol = fileManager.leer();
-        double distancia = fileManager.getDistancia();
-        Transfer transfer = new Transfer(pol,(String) path, distancia);
+        try {
+            ArrayList<PolylineOptions> pol = fileManager.leer();
+            double distancia = fileManager.getDistancia();
+            Long tiempo = fileManager.getTiempo();
+            Transfer transfer = new Transfer(pol,(String)path,
+                    distancia, tiempo);
 
-        Dispatcher.getInstancia().dispatch(Response.LOAD_MAP, transfer);
-
+            Dispatcher.getInstancia().dispatch(Response.LOAD_MAP, transfer);
+        } catch (Exception e){
+            Dispatcher.getInstancia().dispatch(Response.ERROR_CARGAR,null);
+        }
     }
 }

@@ -21,25 +21,21 @@ public class FragmentLoader {
             instancia = new FragmentLoader();
 
         return instancia;
-
     }
 
     public void init(FragmentManager fm){
 
         mFragmentManager = fm;
-
     }
 
     public Fragment getFragmentById(String id){
 
         return mFragmentManager.findFragmentByTag(id);
-
     }
 
     public void cargar(Fragment fragment, String tag){
 
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.containerView, fragment, tag).commit();
-
     }
 }

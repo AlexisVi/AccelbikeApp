@@ -40,6 +40,7 @@ public class Dispatcher {
                 mapa.setPolilinea(((Transfer) data).getPolylineOption());
                 mapa.setSesion(((Transfer) data).getSesion());
                 mapa.setDistancia(((Transfer) data).getDistancia());
+                mapa.setTiempo(((Transfer) data).getTiempo());
                 break;
 
             case BLE_DESACTIVADO:
@@ -84,6 +85,11 @@ public class Dispatcher {
 
                 for (String sesion : (ArrayList<String>) data)
                     tb.actualizarSesiones(sesion);
+
+                break;
+
+            case ERROR_CARGAR:
+                Toast.makeText(null,"Error al cargar el archivo",Toast.LENGTH_LONG).show();
 
                 break;
         }

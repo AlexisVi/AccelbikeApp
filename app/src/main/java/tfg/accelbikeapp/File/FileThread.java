@@ -16,6 +16,7 @@ public class FileThread extends Thread {
     private FileManager filemanager;
     private BluetoothThread bluThread;
     private CoordenadasThread locThread;
+    private long tiempo;
 
     private static final int TIME = 2000;
 
@@ -28,7 +29,7 @@ public class FileThread extends Thread {
         locThread = new CoordenadasThread(context);
         filemanager = new FileManager(context);
         fileName = name;
-
+        tiempo = 0;
     }
 
     public void run(){
@@ -47,30 +48,29 @@ public class FileThread extends Thread {
 
             if (!VectorEjes.isEmpty() && !vectorCoord.isEmpty()){
 
-                filemanager.guardar(Short.toString(VectorEjes.get(0)), Short.toString(VectorEjes.get(1)),
-                        Short.toString(VectorEjes.get(2)),
-                        Double.toString(vectorCoord.get(0)),
-                        Double.toString(vectorCoord.get(1)));
+                String content = Short.toString(VectorEjes.get(0)) + ";" + Short.toString(VectorEjes.get(1)) + ";"
+                        + Short.toString(VectorEjes.get(2)) + ";" + Double.toString(vectorCoord.get(0)) + ";"
+                        + Double.toString(vectorCoord.get(1));
+
+                filemanager.guardar(content);
 
             }
 
             try {
 
                 Thread.sleep(TIME);
-
+                tiempo += TIME;
             }
             catch (InterruptedException e) {
-
+                String aux = "T" + Long.toString(tiempo);
+                filemanager.guardar(aux);
                 bluThread.interrupt();
                 locThread.interrupt();
                 break;
-
             }
         }
-
-        filemanager.leer();
+        //filemanager.leer();
 
         return;
-
     }
 }

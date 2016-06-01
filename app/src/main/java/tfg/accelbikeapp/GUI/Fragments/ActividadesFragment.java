@@ -57,10 +57,17 @@ public class ActividadesFragment extends Fragment {
                 rowView = inflater.inflate(R.layout.row_layout, parent, false);
 
                 TextView textView = (TextView) rowView.findViewById(R.id.label);
-                textView.setText(sistemas.get(position));
+                //Transformar
+                String[] archivo = sistemas.get(position).split("_");
+                String nombre;
+                if (archivo.length == 6)
+                    nombre = "Día " + archivo[2] + "/" + archivo[1] + "/" + archivo[0] + " a las "
+                        + archivo[3] + ":" + archivo[4] + ":" + archivo[5];
+                else nombre = sistemas.get(position);
+
+                textView.setText(nombre);
 
                 return rowView;
-
             }
         };
 

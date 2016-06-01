@@ -20,7 +20,6 @@ public class Controlador {
     public Controlador(Context context){
 
         ctx = context;
-
     }
 
     public void accion(Evento evento, Object datos){
@@ -52,7 +51,6 @@ public class Controlador {
             case CARGAR_SESION:
                 c = new ComandoCargarSesion();
                 break;
-
         }
 
         if (c != null)
